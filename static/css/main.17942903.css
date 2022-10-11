@@ -1,0 +1,2 @@
+*{box-sizing:border-box}#root,body,html{height:100vh;margin:0;padding:0;width:100vw}body{background:#000}canvas{height:100vh}.info{background-color:hsla(94,75%,74%,0);bottom:0;color:transparent;height:20vh;left:0;margin:1rem;position:fixed;transition:.3s;width:50vw}.info:hover{background-color:#b5ee8a;color:#000;text-overflow:clip;transition:.3s}div{outline:2px solid red}
+/*# sourceMappingURL=main.17942903.css.map*/

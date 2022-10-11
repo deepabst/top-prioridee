@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/top-prioridee/static/css/main.17942903.css",
+    "main.js": "/top-prioridee/static/js/main.37513cd6.js",
+    "index.html": "/top-prioridee/index.html",
+    "main.17942903.css.map": "/top-prioridee/static/css/main.17942903.css.map",
+    "main.37513cd6.js.map": "/top-prioridee/static/js/main.37513cd6.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.17942903.css",
+    "static/js/main.37513cd6.js"
+  ]
+}
