@@ -1,0 +1,44 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  html,
+  body,
+  #root {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    background: hsl(0, 0%, 0%);
+  }
+
+  canvas {
+    height: 100vh;
+  }
+
+  .info {
+    position: fixed;
+    color: rgba(0, 0, 0, 0);
+    bottom:0;
+    left: 0;
+    width: 50vw;
+    height: 20vh;
+    background-color: rgba(181, 238, 138, 0);
+    margin: 1rem;
+    transition: 0.3s;
+}
+
+.info:hover {
+    background-color: rgba(181, 238, 138, 1);
+    color: rgba(0, 0, 0, 1);
+    transition: 0.3s;
+    text-overflow: clip;
+  }
+
+  div{
+    outline: 2px solid red;
+  }
+  
