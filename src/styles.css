@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen&display=swap');
 * {
     box-sizing: border-box;
   }
@@ -9,10 +10,13 @@
     height: 100vh;
     margin: 0;
     padding: 0;
+    font-family: 'Silkscreen', cursive;
+    color: aliceblue;
   }
   
   body {
     background: hsl(0, 0%, 0%);
+    
   }
 
   canvas {
@@ -26,19 +30,61 @@
     left: 0;
     width: 50vw;
     height: 20vh;
-    background-color: rgba(181, 238, 138, 0);
+    background-color: hsla(120, 74%, 33%, 0);
     margin: 1rem;
     transition: 0.3s;
-}
-
-.info:hover {
-    background-color: rgba(181, 238, 138, 1);
+  }
+  
+  .info:hover {
+    background-color: hsla(120, 74%, 33%, 0.811);
     color: rgba(0, 0, 0, 1);
     transition: 0.3s;
     text-overflow: clip;
+    outline: 4px solid white;
   }
 
   div{
-    outline: 2px solid red;
+    /* outline: 2px solid red; */
   }
+
+.add {
+  position:fixed;
+  bottom:0;
+  right:0;
+  margin: 1rem;
+  font-family: 'Silkscreen', cursive;
+}
+
+.add:hover{
+  outline: 4px solid white;
+}
+
+.add-task-dialog {
+  position: fixed;
+  left: 20vw;
+  bottom: 20vh;
+  height: 60vh;
+  width: 60vw;
+  background-color: hsla(120, 74%, 33%, 0.811);
+  border: 4px solid white;
+  border-radius: 10px;
+}
+
+.add-task-canvas{
+  position: relative;
+  width: 40%;
+  height: 50%;
+  margin: 1rem;
+  background-color: black;
+  border: 2px solid white ;
+  border-radius: 10px;
+  overflow:scroll
+}
+
+.comparison {
+  position: absolute;
+  top: 0;
+  left: 10vw;
+  outline: 2px solid red;
+}
   
