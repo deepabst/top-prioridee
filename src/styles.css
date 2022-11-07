@@ -87,4 +87,20 @@
   left: 10vw;
   outline: 2px solid red;
 }
+
+.ucomparison {
+  position: absolute;
+  top: 0;
+  right: 50vw;
+  outline: 2px solid greenyellow;
+}
+
+.tasklist {
+  color: aqua;
+  background-color: crimson;
+  outline: 2px solid red;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
   
