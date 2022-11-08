@@ -1,15 +1,9 @@
-import { useRef, useState, useEffect } from 'react'
-import { Canvas, useFrame, useThree, } from '@react-three/fiber'
+import { useState, useEffect } from 'react'
+import { Canvas, useThree, } from '@react-three/fiber'
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { FontLoader } from 'three/addons/loaders/FontLoader.js';
-import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
-import * as THREE from "three";
-import myFont from 'three/examples/fonts/helvetiker_regular.typeface.json';
-import { extend } from '@react-three/fiber';
-import { Audio, AudioListener } from 'three';
 import TaskList from './components/TaskList';
-
-extend({ TextGeometry })
+import Task from './components/Task';
+import QuadrantBox from './components/QuadrantBox'
 
 const seedData = {
   tasks: [
@@ -46,16 +40,6 @@ const seedData = {
   urgency: [2, 3, 1, 4]
 }
 
-function Text(props) {
-  const font = new FontLoader().parse(myFont);
-  return (
-    <mesh position={props.position}>
-      <textGeometry args={[props.label, { font, size: 0.8, height: 0.5 }]} />
-      <meshLambertMaterial attach='material' color={'gold'} />
-    </mesh>
-  )
-}
-
 const CameraController = () => {
   const { camera, gl } = useThree();
   useEffect(
@@ -78,45 +62,6 @@ const CameraController = () => {
   );
   return null;
 };
-
-function QuadrantBox(props) {
-  const ref = useRef()
-  return (
-    <mesh
-      {...props}
-      ref={ref}
-      onClick={() => {
-        console.log("Pointer over", props.label);
-      }}
-    >
-      <Text position={[-props.label.length / 3, 0, 0]} label={props.label} />
-      <boxGeometry args={[10, 10, 1]} />
-      <meshLambertMaterial opacity={0.2} color={props.color} transparent />
-    </mesh>
-  );
-}
-
-function Task(details) {
-  console.log(details.urgency);
-  const [active, setActive] = useState(details.active)
-  const [urgency, setUrgency] = useState(details.urgency)
-  const [importance, setImportance] = useState(details.importance)
-  return (
-    <mesh
-      position={[urgency, importance, 0]}
-      scale={active ? 1.5 : 1}
-      onPointerOver={(event) => {
-        setActive(!active);
-      }}
-      onPointerOut={(event) => {
-        setActive(!active);
-      }}
-      rotation={[Math.PI / 2, 0, 0]}>
-      <sphereGeometry args={[0.8, 32, 32]} />
-      <meshStandardMaterial color="gold" />
-    </mesh>
-  );
-}
 
 function Dialog() {
   return (
@@ -187,7 +132,8 @@ function AddTaskForm(props) {
 }
 
 export default function App() {
-  const [tasks, setTasks] = useState(seedData.tasks);
+
+  const [tasks, setTasks] = useState([]);
   const [addDialogVisible, setAddDialogVisibility] = useState(false);
   const [importanceArray, setImportanceArray] = useState(seedData.importance);
   const [urgencyArray, setUrgencyArray] = useState(seedData.urgency);
@@ -381,11 +327,11 @@ export default function App() {
         <QuadrantBox position={[0, 10, 0]} color={'orange'} label={'DEFER'} />
         <Task details={{ id: 666, summary: 'foo', urgency: 5, importance: 5, active: false }} />
         {
-        console.log({ tasks })
+          console.log({ tasks })
         }
-        {
+        {/* {
           tasks.map((t) => <Task key={t.id} details={t} />)
-        }
+        } */}
 
       </Canvas>
       <Dialog />
@@ -415,7 +361,7 @@ export default function App() {
       {addDialogVisible &&
         <AddTaskDialog addTask={addTask} />
       }
-      <TaskList/>
+      <TaskList />
     </div>
   )
 }
