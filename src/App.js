@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react'
-import { Canvas, useThree, } from '@react-three/fiber'
+import { useState, useEffect } from 'react';
+import { Canvas, useThree, } from '@react-three/fiber';
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import TaskList from './components/TaskList';
 import Task from './components/Task';
-import QuadrantBox from './components/QuadrantBox'
+import QuadrantBox from './components/QuadrantBox';
+import {fetchTasksFromBackend} from './customHooks/tasksData';
 
 const seedData = {
   tasks: [
