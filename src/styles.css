@@ -35,7 +35,7 @@
     transition: 0.3s;
   }
   
-  .info:hover {
+  .info-panel-active {
     background-color: hsla(120, 74%, 33%, 0.811);
     color: rgba(0, 0, 0, 1);
     transition: 0.3s;
@@ -104,3 +104,6 @@
   top: 0;
 }
   
+.finger {
+  cursor: pointer;
+}

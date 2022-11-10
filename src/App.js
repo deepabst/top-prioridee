@@ -66,12 +66,12 @@ const CameraController = () => {
 
 function Dialog() {
   return (
-    <div className='info'>
+    <div id='info-panel' className='info'>
       <h3>Task Summary</h3>
       Walk the fish
     </div>
   );
-}
+} 
 
 function AddTaskButton(props) {
   return (

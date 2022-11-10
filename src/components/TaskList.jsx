@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTasksFromBackend } from '../customHooks/tasksData';
 
-function TaskList() {
+export default function TaskList() {
 
   const { loading, error, tasks } = useTasksFromBackend();
 
@@ -27,5 +27,3 @@ function TaskList() {
     </div>
   );
 }
-export default TaskList;
-
