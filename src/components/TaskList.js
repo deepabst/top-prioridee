@@ -1,10 +1,10 @@
 // React component to display results of the backend call for data
 import React, { useState, useEffect } from 'react';
-import { fetchTasksFromBackend } from '../customHooks/tasksData';
+import { useTasksFromBackend } from '../customHooks/tasksData';
 
 function TaskList() {
 
-  const { loading, tasks, error } = fetchTasksFromBackend();
+  const { loading, error, tasks } = useTasksFromBackend();
 
   return (
     <div className='tasklist'>
