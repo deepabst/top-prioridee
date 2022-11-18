@@ -5,6 +5,7 @@ import axios from 'axios';
 const BASE_URL = 'http://localhost:3000';
 
 function useTasksFromBackend() {
+    console.log('Running useTasksFromBackend');
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);

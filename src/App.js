@@ -4,7 +4,10 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import TaskList from './components/TaskList';
 import Task from './components/Task';
 import QuadrantBox from './components/QuadrantBox';
-import {useTasksFromBackend} from './customHooks/tasksData';
+import { useTasksFromBackend } from './customHooks/tasksData';
+import InfoDialog from './components/InfoDialog';
+import AddTaskDialog from './components/AddTaskDialog';
+
 
 // const seedData = {
 //   tasks: [
@@ -47,7 +50,7 @@ const CameraController = () => {
     () => {
       const controls = new OrbitControls(camera, gl.domElement);
 
-      controls.minDistance = 20;
+      controls.minDistance = 30;
       controls.maxDistance = 40;
       controls.minPolarAngle = 1;
       controls.maxPolarAngle = 2;
@@ -64,72 +67,12 @@ const CameraController = () => {
   return null;
 };
 
-function Dialog() {
-  return (
-    <div id='info-panel' className='info'>
-      <h3>Task Summary</h3>
-      Walk the fish
-    </div>
-  );
-} 
-
 function AddTaskButton(props) {
   return (
     <button className='add' onClick={props.clickMethod}>
       Add Task
     </button>
   );
-}
-
-function AddTaskDialog(props) {
-  return (
-    <div className='add-task-dialog'>
-      <h2>Add new task</h2>
-      <div className='add-task-canvas'>
-        <Canvas>
-          <ambientLight intensity={1.5} />
-          <spotLight intensity={3} position={[40, 40, 40]} angle={0.15} penumbra={1} />
-          <pointLight position={[-10, -10, -10]} />
-          <Task details={{ urgency: 0, importance: 0, active: false }} />
-        </Canvas>
-      </div>
-      <div>
-        <AddTaskForm addTask={props.addTask} deactivateAllTasks={props.deactivateAllTasks} />
-      </div>
-    </div>
-  );
-}
-
-function AddTaskForm(props) {
-
-  const [task, setTask] = useState({});
-
-  function handleSubmit(e) {
-    console.log('Form submitted');
-    e.preventDefault();
-    props.addTask(task);
-  }
-
-  function handleInput(e) {
-    // console.log('Input', e.target.value);
-    setTask({
-      ...task, // copy the existing state 
-      [e.target.name]: e.target.value // add the new stuff
-    });
-  }
-
-  return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>What needs to be done?</label>
-          <input name="summary" type="text" onChange={handleInput} />
-        </div>
-        <button>Add Task</button>
-      </form>
-    </div>
-  );
-
 }
 
 export default function App() {
@@ -151,24 +94,27 @@ export default function App() {
     return [xPos, yPos];
   }
 
-  // function addTask(newTask) {
-  //   newTask.id = Date.now();
-  //   setTasks([...tasks, newTask]);
-  //   setAddDialogVisibility(false);
-  //   // run sorting hat function for importance
-  //   if (tasks.length > 0) {
-  //     // get the middle index of the importanceArray
-  //     const comparisonIndex = selectMiddleIndex(importanceArray);
-  //     // find the task id at the middle index
-  //     let initialTaskId = importanceArray[comparisonIndex];
-  //     // grab the middle task out of app state
-  //     const initialTask = tasks.find(t => t.id === initialTaskId);
-  //     // put the middle importance task into app state (so we can ask the user to compare it to the new task)
-  //     setCurrentComparisonTask(initialTask);
-  //     //copy the current list of tasks sorted by importance to the temp sorting array
-  //     setImportanceArrayInProgress(importanceArray);
-  //   }
-  // }
+  function addTask(newTask) {
+    console.log('Adding new task')
+    // TODO make the post to the backend here
+
+    // newTask.id = Date.now();
+    setTasks([...tasks, newTask]);
+    setAddDialogVisibility(false);
+    // run sorting hat function for importance
+    if (tasks.length > 0) {
+      // get the middle index of the importanceArray
+      const comparisonIndex = selectMiddleIndex(importanceArray);
+      // find the task id at the middle index
+      let initialTaskId = importanceArray[comparisonIndex];
+      // grab the middle task out of app state
+      const initialTask = tasks.find(t => t.id === initialTaskId);
+      // put the middle importance task into app state (so we can ask the user to compare it to the new task)
+      setCurrentComparisonTask(initialTask);
+      //copy the current list of tasks sorted by importance to the temp sorting array
+      setImportanceArrayInProgress(importanceArray);
+    }
+  }
 
   function handleComparisonAnswer(answer) {
     console.log({ answer });
@@ -315,28 +261,26 @@ export default function App() {
   //   //TODO: check if base case reached (i.e nothing left to compare to)
   // }
 
-const {loading, error, tasks} = useTasksFromBackend();
+  const { loading, error, tasks } = useTasksFromBackend();
 
   return (
     <div>
-      <Canvas>
+      <Canvas camera={{position: [5,5,30]}}>
         <CameraController />
         <ambientLight intensity={1} />
-        <spotLight intensity={3} position={[40, 40, 40]} angle={0.15} penumbra={1} />
-        <pointLight position={[-10, -10, -10]} />
         <QuadrantBox position={[10, 10, 0]} color={'red'} label={'DO'} />
         <QuadrantBox position={[10, 0, 0]} color={'green'} label={'DELEGATE'} />
         <QuadrantBox position={[0, 0, 0]} color={'lightblue'} label={'DELETE'} />
         <QuadrantBox position={[0, 10, 0]} color={'orange'} label={'DEFER'} />
         {
           loading
-          ?
-          console.log("Loading tasks..")
-          :
-          tasks.map(t => <Task props={t}/>)
+            ?
+            console.log("Loading tasks..")
+            :
+            tasks.map(t => <Task key={t._id} props={t} />)
         }
       </Canvas>
-      <Dialog />
+      <InfoDialog />
       {/* {
         importanceArrayInProgress.length > 0
         &&
@@ -366,4 +310,4 @@ const {loading, error, tasks} = useTasksFromBackend();
       <TaskList />
     </div>
   )
-}
+} 
