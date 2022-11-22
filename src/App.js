@@ -7,6 +7,7 @@ import QuadrantBox from './components/QuadrantBox';
 import { useTasksFromBackend } from './customHooks/tasksData';
 import InfoDialog from './components/InfoDialog';
 import AddTaskDialog from './components/AddTaskDialog';
+import { useSelector, useDispatch } from 'react-redux';
 
 
 // const seedData = {
@@ -96,22 +97,13 @@ export default function App() {
 
   function addTask(newTask) {
     console.log('Adding new task')
-    // TODO make the post to the backend here
-
-    // newTask.id = Date.now();
-    setTasks([...tasks, newTask]);
+    tasks.push(newTask);
     setAddDialogVisibility(false);
-    // run sorting hat function for importance
-    if (tasks.length > 0) {
-      // get the middle index of the importanceArray
+    if (tasks.length > 1) {
       const comparisonIndex = selectMiddleIndex(importanceArray);
-      // find the task id at the middle index
       let initialTaskId = importanceArray[comparisonIndex];
-      // grab the middle task out of app state
       const initialTask = tasks.find(t => t.id === initialTaskId);
-      // put the middle importance task into app state (so we can ask the user to compare it to the new task)
       setCurrentComparisonTask(initialTask);
-      //copy the current list of tasks sorted by importance to the temp sorting array
       setImportanceArrayInProgress(importanceArray);
     }
   }
@@ -262,10 +254,18 @@ export default function App() {
   // }
 
   const { loading, error, tasks } = useTasksFromBackend();
-
+  const counter = useSelector( state => state.counter );
+  const dispatch = useDispatch();
+  function handleClick(ev){
+    dispatch({type: 'clickCounter/incremented'})
+  }
+  
   return (
     <div>
-      <Canvas camera={{position: [5,5,30]}}>
+      <nav>
+        Global counter : {counter}
+      </nav>
+      <Canvas camera={{ position: [5, 5, 30] }} onClick={handleClick}>
         <CameraController />
         <ambientLight intensity={1} />
         <QuadrantBox position={[10, 10, 0]} color={'red'} label={'DO'} />
@@ -273,11 +273,17 @@ export default function App() {
         <QuadrantBox position={[0, 0, 0]} color={'lightblue'} label={'DELETE'} />
         <QuadrantBox position={[0, 10, 0]} color={'orange'} label={'DEFER'} />
         {
-          loading
+          error
             ?
-            console.log("Loading tasks..")
+            console.warn("Error loading tasks")
             :
-            tasks.map(t => <Task key={t._id} props={t} />)
+            (
+              loading
+                ?
+                console.log("Loading tasks..")
+                :
+                tasks.map(t => <Task key={t._id} props={t} />)
+            )
         }
       </Canvas>
       <InfoDialog />
@@ -303,11 +309,10 @@ export default function App() {
           <button onClick={() => handleUrgencyComparisonAnswer(false)}>False</button>
         </div>
       } */}
+
       <AddTaskButton clickMethod={(event) => { setAddDialogVisibility(!addDialogVisible) }} />
-      {addDialogVisible &&
-        <AddTaskDialog addTask={addTask} />
-      }
-      <TaskList />
+      { addDialogVisible && <AddTaskDialog addTask={addTask} dialogVisibility={setAddDialogVisibility}/> }
+      {/* <TaskList /> */}
     </div>
   )
 } 

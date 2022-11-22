@@ -8,6 +8,7 @@ export default function AddTaskForm(props) {
     function handleSubmit(e) {
         console.log('Form submitted');
         e.preventDefault();
+        props.dialogVisibility(false);
 
         // TODO: run comparison code to help
         // user set the importance / urgency 
