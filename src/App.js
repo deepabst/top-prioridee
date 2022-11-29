@@ -8,6 +8,8 @@ import { useTasksFromBackend } from './customHooks/tasksData';
 import InfoDialog from './components/InfoDialog';
 import AddTaskDialog from './components/AddTaskDialog';
 import { useSelector, useDispatch } from 'react-redux';
+import { useControls } from 'leva'
+import { Group } from 'three';
 
 
 // const seedData = {
@@ -254,12 +256,15 @@ export default function App() {
   // }
 
   const { loading, error, tasks } = useTasksFromBackend();
+  const { color } = useControls({
+    color: '#DEE000'
+  })
   const counter = useSelector( state => state.counter );
   const dispatch = useDispatch();
   function handleClick(ev){
     dispatch({type: 'clickCounter/incremented'})
   }
-  
+
   return (
     <div>
       <nav>
@@ -268,7 +273,7 @@ export default function App() {
       <Canvas camera={{ position: [5, 5, 30] }} onClick={handleClick}>
         <CameraController />
         <ambientLight intensity={1} />
-        <QuadrantBox position={[10, 10, 0]} color={'red'} label={'DO'} />
+        <QuadrantBox position={[10, 10, 0]} color={color} label={'DO'} />
         <QuadrantBox position={[10, 0, 0]} color={'green'} label={'DELEGATE'} />
         <QuadrantBox position={[0, 0, 0]} color={'lightblue'} label={'DELETE'} />
         <QuadrantBox position={[0, 10, 0]} color={'orange'} label={'DEFER'} />

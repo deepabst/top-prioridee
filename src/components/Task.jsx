@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { useEffect } from 'react';
+import { useControls } from 'leva'
+
 
 export default function Task(props) {
   console.log("Task rendered");
@@ -26,6 +28,11 @@ export default function Task(props) {
   }, [hovered]
   )
 
+  const { activeColor, inactiveColor } = useControls({
+    activeColor: 'gold',
+    inactiveColor: 'lightgrey'
+  })
+
   return (
     <mesh
       position={[props.props.urgency, props.props.importance, 1]}
@@ -40,9 +47,9 @@ export default function Task(props) {
         args={[1, 32, 32]} />
       {props.props.active
         ?
-        <meshBasicMaterial color="gold"  />
+        <meshBasicMaterial color={activeColor}  />
         :
-        <meshBasicMaterial color="lightgrey" wireframe />
+        <meshBasicMaterial color={inactiveColor} wireframe />
       }
     </mesh>
   )
